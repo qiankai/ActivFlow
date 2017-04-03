@@ -1,11 +1,11 @@
 """Tests for Core app"""
 from django.contrib.auth.models import User, Group
 from django.core.urlresolvers import reverse
-from django.test import TestCase
 from django.test import Client
+from django.test import TestCase
 
 from activflow.core.models import Request
-from activflow.tests.models import Foo, Corge
+import models
 
 
 class CoreTests(TestCase):
@@ -72,7 +72,7 @@ class CoreTests(TestCase):
                 'create',
                 kwargs=request_args))
 
-            self.assertEqual(response.context['form']._meta.model, Foo,
+            self.assertEqual(response.context['form']._meta.model, models.Foo,
                              'User has access to initiate workflow, '
                              'still the context does not contain the '
                              'required form instance')
@@ -93,7 +93,7 @@ class CoreTests(TestCase):
         self.assertEqual(response.status_code, 200,
                          'Form post did not result in success')
         # No instance gets created because form is invalid
-        self.assertEqual(Foo.objects.count(), 0,
+        self.assertEqual(models.Foo.objects.count(), 0,
                          'Validation errors still result in creation '
                          'of initial activity instance')
 
@@ -110,7 +110,7 @@ class CoreTests(TestCase):
                 'qux': 'Nothing'
             })
 
-        instances = Foo.objects.all()
+        instances = models.Foo.objects.all()
         instance = instances.first()
 
         # Instance gets saved successfully against form submit
@@ -195,7 +195,7 @@ class CoreTests(TestCase):
             ),
             {'grault': 'Example - big E', 'thud': 23})
 
-        instances = Corge.objects.all()
+        instances = models.Corge.objects.all()
         instance = instances.first()
 
         # New instance for last activity gets created
@@ -235,7 +235,7 @@ class CoreTests(TestCase):
             'delete',
             kwargs=request_args))
 
-        self.assertEqual(Corge.objects.all().count(), 0,
+        self.assertEqual(models.Corge.objects.all().count(), 0,
                          'Delete operation did not end up removing '
                          'the instance')
 
@@ -260,7 +260,7 @@ class CoreTests(TestCase):
                 'qux': 'Nothing',
             })
 
-        instances = Foo.objects.all()
+        instances = models.Foo.objects.all()
         instance = instances.first()
 
         # Redirects the control to update form
@@ -334,7 +334,7 @@ class CoreTests(TestCase):
             ),
             {'grault': 'Example - big E', 'thud': 23})
 
-        instances = Corge.objects.all()
+        instances = models.Corge.objects.all()
         instance = instances.latest('id')
 
         request_args = {

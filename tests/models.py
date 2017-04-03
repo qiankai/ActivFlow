@@ -6,7 +6,7 @@ from django.db.models import (
     TextField)
 
 from activflow.core.models import AbstractActivity, AbstractInitialActivity
-from activflow.tests.validators import validate_initial_cap
+from validators import validate_initial_cap
 
 
 class Foo(AbstractInitialActivity):

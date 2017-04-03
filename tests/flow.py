@@ -1,8 +1,8 @@
 """ Test Flow Definition"""
 
-from activflow.tests.models import Foo, Corge
-from activflow.tests.rules import foo_to_corge
+from models import Foo, Corge
 
+from rules import foo_to_corge
 
 FLOW = {
     'foo_activity': {
