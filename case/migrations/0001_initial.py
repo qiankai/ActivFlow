@@ -3,8 +3,6 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import django.db.models.deletion
-import tests.validators
 
 
 class Migration(migrations.Migration):
@@ -12,35 +10,32 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('core', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Corge',
+            name='CaseCorge',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('creation_date', models.DateTimeField(auto_now_add=True, verbose_name=b'Creation Date')),
                 ('last_updated', models.DateTimeField(auto_now=True, verbose_name=b'Last Updated')),
-                ('grault', models.CharField(max_length=50, verbose_name=b'Grault')),
-                ('thud', models.IntegerField(verbose_name=b'Thud')),
-                ('task', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='core.Task')),
+                ('grault', models.CharField(max_length=50, verbose_name='Grault')),
+                ('thud', models.IntegerField(verbose_name='Thud')),
             ],
             options={
                 'abstract': False,
             },
         ),
         migrations.CreateModel(
-            name='Foo',
+            name='CaseFoo',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('creation_date', models.DateTimeField(auto_now_add=True, verbose_name=b'Creation Date')),
                 ('last_updated', models.DateTimeField(auto_now=True, verbose_name=b'Last Updated')),
                 ('subject', models.CharField(max_length=70, verbose_name=b'Subject')),
-                ('bar', models.CharField(max_length=200, validators=[tests.validators.validate_initial_cap], verbose_name=b'Bar')),
-                ('baz', models.CharField(choices=[(b'CR', b'Corge'), (b'WL', b'Waldo')], max_length=30, verbose_name=b'Baz')),
-                ('qux', models.TextField(blank=True, verbose_name=b'Qux')),
-                ('task', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='core.Task')),
+                ('bar', models.CharField(max_length=200, verbose_name='Bar')),
+                ('baz', models.CharField(choices=[('CR', 'Corge'), ('WL', 'Waldo')], max_length=30, verbose_name='Baz')),
+                ('qux', models.TextField(blank=True, verbose_name='Qux')),
             ],
             options={
                 'abstract': False,

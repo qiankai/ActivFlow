@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load core_tags %}
+{% block title %} <title>XYDATA.CN - Employee</title> {% endblock %}
+{% block breadcrumb %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'workflows' %}">Home</a></li>
+  <li class="active">Employee</li>
+</ol>
+{% endblock %}
+{% block main_content %}
+<div class="row">
+  <div class="col-md-9 col-md-push-3">
+    <blockquote class="blockquote-reverse">
+		<h6><strong>员工管理</strong></h6>
+		<h6><i>管理员工信息</i></h6>
+	</blockquote>
+  </div>
+  <div class="col-md-3 col-md-pull-9">
+{#    <a href="{% url 'create' app_title initial request_identifier %}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon glyphicon-edit"></span> Initiate Request</a>#}
+  </div>
+</div>
+    {{ object_list.count }}
+{% if object_list %}
+<table class="table table-bordered">
+	<tr>
+		<th><span class="glyphicon glyphicon-menu-hamburger"></span></th>
+		<th>姓名</th>
+		<th>工号</th>
+		<th>更新时间</th>
+    </tr>
+    {% for object in object_list %}
+	<tr class="active">
+		<td>
+            <a class="btn btn-info btn-xs " href="{% url 'employee-view' object.id %}"><span class="glyphicon glyphicon glyphicon-check"></span>查看</a>
+		</td>
+
+		<td>{{object.real_name}}</td>
+		<td>{{object.work_no}}</td>
+		<td>{{object.update_date}}</td>
+    </tr>
+
+	{% endfor %}
+</table>
+{% else %}
+    <p>No requests are available.</p>
+{% endif %}
+{% endblock %}

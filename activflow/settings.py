@@ -38,7 +38,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_extensions',
     'activflow.core',
-    'tests'
+    'tests',
+    'case',
+    'employee',
 )
 
 MIDDLEWARE_CLASSES = (

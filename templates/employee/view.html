@@ -1,0 +1,346 @@
+{% extends "base.html" %}
+{% block title %} <title>XYDATA - {{ employee.real_name }}'s Page</title> {% endblock %}
+{% block breadcrumb %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'workflows' %}">Home</a></li>
+  <li><a href="{% url 'employee-list' %}">Employee</a></li>
+  <li class="active">{{ employee.real_name }}'s Page</li>
+</ol>
+{% endblock %}
+{% block main_content %}
+
+    <input type="hidden" id="employee_id" value="{{ employee.id }}">
+
+    <div class="page-header">
+        <h3>{{ employee.real_name }}
+            <div class="btn-group pull-right" role="group" aria-label="...">
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#PositionModal">调岗</button>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#LevelModal">晋升</button>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#TalkModal">谈话</button>
+              </div>
+        </h3>
+
+    </div>
+
+      <div class="row">
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">姓名</span>
+                  <input type="text" class="form-control" value="{{ employee.real_name }}" readonly>
+{#                  <span class="input-group-btn"><a class="btn btn-default">修改</a></span>#}
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">工号</span>
+                  <input type="text" class="form-control" value="{{ employee.work_no }}" readonly>
+{#                  <span class="input-group-btn"><a class="btn btn-default">修改</a></span>#}
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">性别</span>
+                  <input type="text" id="sex" class="form-control" value="{% if employee.sex == 1 %}男{% else %}女{% endif %}" >
+                  <span class="input-group-btn"><a class="btn btn-default" onclick=saveinfo('sex',$("#sex").val())>修改</a></span>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">手机</span>
+                  <input type="text" id="mobile" class="form-control" value="{{ employee.mobile }}" >
+                  <span class="input-group-btn"><a class="btn btn-default" onclick=saveinfo('mobile',$("#mobile").val())>修改</a></span>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">地址</span>
+                  <input type="text" id="address" class="form-control" value="{{ employee.address }}" >
+                  <span class="input-group-btn"><a class="btn btn-default" onclick=saveinfo('address',$("#address").val())>修改</a></span>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">生日</span>
+                  <input type="text" id="birth" class="form-control" value="{{ employee.birth }}" placeholder="YYYY-MM-DD">
+                  <span class="input-group-btn"><a class="btn btn-default" onclick=saveinfo('birth',$("#birth").val())>修改</a></span>
+              </div>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">职位</span>
+                  <input type="text" class="form-control" value="{{ employee.position }}" readonly>
+{#                  <span class="input-group-btn"><a class="btn btn-default">修改</a></span>#}
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">级别</span>
+                  <input type="text" class="form-control" value="{{ employee.level }}" readonly>
+{#                  <span class="input-group-btn"><a class="btn btn-default">修改</a></span>#}
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">入职时间</span>
+                  <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" >
+                  <span class="input-group-btn"><a class="btn btn-default" onclick=saveinfo('birth',$("#birth").val())>修改</a></span>
+              </div>
+          </div>
+      </div>
+
+       <div class="row">
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">上年产值</span>
+                  <input type="text" class="form-control" value="{{ employee.last_year_gross }}" readonly>
+{#                  <span class="input-group-btn"><a class="btn btn-default">修改</a></span>#}
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">上年评级</span>
+                  <input type="text" class="form-control" value="{{ employee.last_year_degree }}" readonly>
+{#                  <span class="input-group-btn"><a class="btn btn-default">修改</a></span>#}
+              </div>
+          </div>
+
+      </div>
+
+
+    {#  项目参与记录开始  #}
+    <div class="page-header">
+        <h3>项目参与记录</h3>
+    </div>
+
+    <ul class="list-group">
+        {% if project_in_list %}
+            {% for project in project_in_list %}
+                <li class="list-group-item"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> {{ project.create_date }} 谈话记录 by {{ project.create_user }} <a href="#">查看详情</a></li>
+            {% endfor %}
+        {% else %}
+            <p>没有数据~!</p>
+        {% endif %}
+
+    </ul>
+
+    {#  谈话记录开始  #}
+
+    <div class="page-header">
+        <h3>谈话记录</h3>
+    </div>
+
+    <ul class="list-group">
+        {% if talk_list %}
+            {% for talk in talk_list %}
+                <li class="list-group-item"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> {{ talk.create_date }} {{ talk.tr_title }} 与 {{ employee.real_name }} 的谈话记录  <a href="#">查看详情</a></li>
+            {% endfor %}
+        {% else %}
+            <p>没有数据~!</p>
+        {% endif %}
+    </ul>
+
+    {#  调岗记录开始  #}
+    <div class="page-header">
+        <h3>调岗记录</h3>
+    </div>
+
+    <ul class="list-group">
+        {% if position_record_list %}
+            {% for position_record in position_record_list %}
+                <li class="list-group-item"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> {{ position_record.create_date }} 异动到 {{ position_record.pr_title }} </li>
+            {% endfor %}
+        {% else %}
+            <p>没有数据~!</p>
+        {% endif %}
+    </ul>
+
+    {#  晋升记录开始  #}
+    <div class="page-header">
+        <h3>晋升记录</h3>
+    </div>
+
+    <ul class="list-group">
+        {% if level_record_list %}
+            {% for level_record in level_record_list %}
+                <li class="list-group-item"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> {{ level_record.create_date }} 晋升到 {{ level_record.lr_title }} </li>
+            {% endfor %}
+        {% else %}
+            <p>没有数据~!</p>
+        {% endif %}
+    </ul>
+
+
+    {#  年度产出记录开始  #}
+    <div class="page-header">
+        <h3>年度产出评级记录</h3>
+    </div>
+
+    <ul class="list-group">
+        {% if dg_record_list %}
+            {% for dg_record in dg_record_list %}
+                <li class="list-group-item"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> {{ dg_record.dgr_mark_year }} 年度产出总值:{{ dg_record.dgr_gross }} 年度评级:{{ dg_record.dgr_degree }} </li>
+            {% endfor %}
+        {% else %}
+            <p>没有数据~!</p>
+        {% endif %}
+    </ul>
+
+{#{% include "core/widgets/validation.html" with error_messages=error_message %}#}
+{#{% include "core/widgets/history.html" with request=object.task.request %}#}
+{#<p class="text-right"><i><strong>{{activity_title}}</strong> - Revise</i></p>#}
+{#<form action="{% url 'update' app_title entity_title object.id %}" method="post" class="form-horizontal">#}
+{#    {% include 'core/widgets/form.html' %}#}
+{#</form>#}
+
+
+<!-- 调动岗位Modal -->
+<div class="modal fade" id="PositionModal" tabindex="-1" role="dialog" aria-labelledby="PositionModal">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">调动岗位</h4>
+      </div>
+
+      <div class="modal-body">
+          <form>
+          <div class="form-group">
+            <label for="newPositionInput">调动到以下岗位:</label>
+            <input type="text" class="form-control" id="newPositionInput" placeholder="新的岗位名称">
+          </div>
+          </form>
+    </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick=savebtn(1,$("#newPositionInput").val())>保存</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- 晋升Modal -->
+<div class="modal fade" id="LevelModal" tabindex="-1" role="dialog" aria-labelledby="LevelModal">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">等级晋升</h4>
+      </div>
+
+      <div class="modal-body">
+          <form>
+          <div class="form-group">
+            <label for="newLevelInput">晋升到以下岗位等级:</label>
+            <input type="text" class="form-control" id="newLevelInput" placeholder="新的岗位等级">
+          </div>
+          </form>
+    </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick=savebtn(2,$("#newLevelInput").val())>保存</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- 谈话Modal -->
+<div class="modal fade" id="TalkModal" tabindex="-1" role="dialog" aria-labelledby="TalkModal">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">谈话</h4>
+      </div>
+
+      <div class="modal-body">
+          <form>
+          <div class="form-group">
+            <label for="newTalkMan">谈话人:</label>
+            <input type="text" class="form-control" id="newTalkMan" placeholder="谈话人">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">谈话内容:</label>
+            <input type="text" class="form-control" id="id_talk_content" placeholder="谈话内容">
+          </div>
+          <script type="text/javascript">CKEDITOR.replace('id_talk_content')</script>
+          </form>
+    </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick=savebtn(3,$("#newTalkMan").val(),$("#id_talk_content").val())>保存</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+ <script type="application/javascript">
+
+
+ function saveinfo(a,b) {
+     $.ajax({
+                 type: "POST",
+                 url: "/employee/api/savebasic",
+                 data: {"tag":a,"data":b,"eid":$("#employee_id").val()},
+                 success: function(data){
+                       console.info(data);
+                       window.location.reload();
+                 },
+                 error: function(XMLHttpRequest, textStatus, errorThrown){
+                     console.info(XMLHttpRequest,textStatus,errorThrown)
+                      this;
+                 },
+                 complete: function(XMLHttpRequest, textStatus){
+                     console.info("complete");
+                     this;
+                 },
+            });
+     
+ }
+
+
+  function savebtn(t,a,b) {
+     var aurl = "";
+      var adata;
+     if(t == 1){
+         aurl = "/employee/api/saveposition";
+         adata =  {"data":a,"eid":$("#employee_id").val()};
+     }
+     else if (t == 2){
+         aurl = "/employee/api/savelevel";
+         adata =  {"data":a,"eid":$("#employee_id").val()}
+     }
+     else if (t == 3){
+         aurl = "/employee/api/savetalk";
+         adata = {"talkman":a, "data":b, "eid":$("#employee_id").val()}
+     }
+
+     $.ajax({
+                 type: "POST",
+                 url: aurl,
+                 data: adata,
+                 success: function(data){
+                       console.info(data);
+                       window.location.reload();
+                 },
+                 error: function(XMLHttpRequest, textStatus, errorThrown){
+                     console.info(XMLHttpRequest,textStatus,errorThrown)
+                      this;
+                 },
+                 complete: function(XMLHttpRequest, textStatus){
+                     console.info("complete");
+                     this;
+                 },
+            });
+
+ }
+
+ </script>
+{% endblock %}

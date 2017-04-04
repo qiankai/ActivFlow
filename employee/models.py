@@ -7,7 +7,6 @@ from django.db.models.signals import post_save
 
 
 class BaseModel(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
     create_user = models.CharField(max_length=40)
@@ -102,6 +101,7 @@ class DegreeAndGrossRecord(BaseModel):
     dgr_mark_year = models.CharField(max_length=20)
     dgr_degree = models.CharField(max_length=20)
     dgr_gross = models.CharField(max_length=20)
+    dgr_related_emp = models.ForeignKey("Employee")
 
     def __unicode__(self):
         return self.dgr_mark_year + "," + self.dgr_degree + "," + self.dgr_gross
