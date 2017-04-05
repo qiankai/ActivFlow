@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^auth/', include('django.contrib.auth.urls')),
     url(r'', include('activflow.core.urls')),
-    url(r'^employee/',include('employee.urls'))
+    url(r'^employee/',include('employee.urls')),
+    url(r'^case/',include('case.urls'))
 ]

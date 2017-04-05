@@ -46,8 +46,8 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-              <li><a href="#workflows">我的工作台</a></li>
-            <li><a class="active" href="{% url 'workflows' %}">项目管理</a></li>
+              <li><a href="{% url 'workflows' %}">我的工作台</a></li>
+            <li><a class="active" href="{% url 'case-list' %}">项目管理</a></li>
             <li><a href="{% url 'employee-list' %}">员工管理</a></li>
           </ul>
           {% if user.is_authenticated %}

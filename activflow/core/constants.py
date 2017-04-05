@@ -19,5 +19,4 @@ TASK_STATUS = (
 
 WORKFLOW_APPS = [
     'tests',
-    'case',
 ]

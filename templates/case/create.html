@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %} <title>XYDATA - 项目立项</title> {% endblock %}
+{% block breadcrumb %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'workflows' %}">Home</a></li>
+  <li><a href="{% url 'employee-list' %}">Case</a></li>
+  <li class="active">项目立项</li>
+</ol>
+{% endblock %}
+{% block main_content %}
+
+    <div class="page-header">
+        <h3>项目立项
+            <div class="btn-group pull-right" role="group" aria-label="...">
+                <button type="button" class="btn btn-primary" >保存</button>
+                <button type="button" class="btn btn-default" >新建客户</button>
+              </div>
+        </h3>
+
+    </div>
+
+      <div class="row">
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">项目编号</span>
+                  <input type="text" class="form-control"  readonly>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">项目名称</span>
+                  <input type="text" class="form-control" >
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">项目预算</span>
+                  <input type="text" id="sex" class="form-control" >
+              </div>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">预计落单时间</span>
+                  <input type="text" class="form-control"  readonly>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">销售</span>
+                  <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" >
+
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">售前工程师</span>
+                  <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" >
+              </div>
+          </div>
+      </div>
+
+    <div class="row">
+        <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">客户名称</span>
+                  <input type="text" id="birth" class="form-control">
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">客户联系人</span>
+                  <input type="text" id="mobile" class="form-control" >
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">客户联系方式</span>
+                  <input type="text" id="address" class="form-control" >
+              </div>
+          </div>
+
+      </div>
+
+
+{% endblock %}
