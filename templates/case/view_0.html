@@ -1,94 +1,87 @@
 {% extends "base.html" %}
-{% block title %} <title>XYDATA - 项目立项</title> {% endblock %}
+{% block title %} <title>XYDATA - {{ casebaseinfo.case_title }}</title> {% endblock %}
 {% block breadcrumb %}
 <ol class="breadcrumb">
   <li><a href="{% url 'workflows' %}">Home</a></li>
   <li><a href="{% url 'case-list' %}">Case</a></li>
-  <li class="active">项目立项</li>
+  <li class="active">{{ casebaseinfo.case_title }}</li>
 </ol>
 {% endblock %}
 {% block main_content %}
 
     <div class="page-header">
-        <h3>项目立项
-            <div class="btn-group pull-right" role="group" aria-label="...">
+        <h3>{{ casebaseinfo.case_title }}
+            <small>{{ casebaseinfo.identifier }}</small>
+            <span class="label label-info">{{ casebaseinfo.get_milestone_display }}</span>
+
+            <div class="btn-group pull-right" role="group">
+                <button type="button" class="btn btn-primary" >人员变更</button>
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#NewCustomerModal">新建客户</button>
-                <button type="button" class="btn btn-primary" onclick=submitData()>保存</button>
+                <button type="button" class="btn btn-primary" >保存</button>
               </div>
         </h3>
-
     </div>
 
-    <form class="form-horizontal">
-  <div class="form-group">
-    <label class="col-sm-2 control-label">项目编号</label>
-    <div class="col-sm-10">
-      <p class="form-control-static" id="identifer">{{ identifier }}</p>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="case_title" class="col-sm-2 control-label">项目名称</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="case_title" placeholder="项目名称">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="current_budget" class="col-sm-2 control-label">项目预算</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="current_budget" placeholder="项目预算">
-    </div>
-  </div>
-      <div class="form-group">
-    <label for="case_deadline" class="col-sm-2 control-label">预计落单时间</label>
-    <div class="col-sm-10">
-      <input type="date" class="form-control" id="case_deadline" placeholder="预计落单时间">
-    </div>
-  </div>
-      <div class="form-group">
-    <label for="customer_title" class="col-sm-2 control-label">客户名称</label>
-    <div class="col-sm-10">
-        <select class="form-control" id="customer_title">
-        {% if customer_list %}
-            {% for customer in customer_list %}
-                <option value="{{ customer.id }}">{{ customer.identifier }} -- {{ customer.customer_title }}</option>
-            {% endfor %}
-        {% else %}
-                <option selected value="-1">请先添加客户</option>
-        {% endif %}
+    <div class="row">
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">项目编号</span>
+                  <input type="text" class="form-control" value="{{ casebaseinfo.identifier }}" readonly>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">项目名称</span>
+                  <input type="text" class="form-control" value="{{ casebaseinfo.case_title }}" readonly>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">预计落单时间</span>
+                  <input type="text" id="case_deadline" class="form-control" value="{{ casebaseinfo.case_deadline }}" >
+                  <span class="input-group-btn"><a class="btn btn-default" onclick=saveinfo('case_deadline',$("#case_deadline").val())>修改</a></span>
+              </div>
+          </div>
+      </div>
 
-        </select>
-    </div>
-  </div>
-      <div class="form-group">
-    <label for="contact_name" class="col-sm-2 control-label">客户联系人</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="contact_name" placeholder="客户联系人">
-    </div>
-  </div>
-      <div class="form-group">
-    <label for="contact_mobile" class="col-sm-2 control-label">客户联系方式</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="contact_mobile" placeholder="客户联系方式">
-    </div>
-  </div>
- <div class="form-group">
-    <label for="sales" class="col-sm-2 control-label">销售经理</label>
-    <div class="col-sm-10">
-        <input type="hidden" id="salesId" value="{{ request.user.employee.id }}">
-        <p class="form-control-static">{{ request.user.employee.real_name }}</p>
-    </div>
-  </div>
- <div class="form-group">
-    <label for="se" class="col-sm-2 control-label">售前工程师</label>
-    <div class="col-sm-10">
-        <select class="form-control" id="se">
-            {% for presale in presale_list %}
-                <option value="{{ presale.id }}">{{ presale.real_name }}</option>
-            {% endfor %}
-        </select>
-    </div>
-  </div>
-</form>
+    <div class="row">
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">客户名称</span>
+                  <input type="text" class="form-control" value="{{ casebaseinfo.customer_title.customer_title }}" readonly>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">客户联系人</span>
+                  <input type="text" class="form-control" id="contact_name" value="{{ casebaseinfo.contact_name }}">
+                  <span class="input-group-btn"><a class="btn btn-default" onclick=saveinfo('contact_name',$("#contact_name").val())>修改</a></span>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">客户联系方式</span>
+                  <input type="text" id="contact_mobile" class="form-control" value="{{ casebaseinfo.contact_mobile }}" >
+                  <span class="input-group-btn"><a class="btn btn-default" onclick=saveinfo('contact_mobile',$("#contact_mobile").val())>修改</a></span>
+              </div>
+          </div>
+      </div>
+    <div class="row">
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">销售经理</span>
+                  <input type="text" class="form-control" value="{{ casebaseinfo.sales.real_name }}" readonly>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">售前工程师</span>
+                  <input type="text" class="form-control" id="contact_name" value="{{ casebaseinfo.presales.real_name }}" readonly>
+              </div>
+          </div>
+
+      </div>
+
 
 
     <!-- 新建客户Modal -->

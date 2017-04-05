@@ -52,6 +52,9 @@ class CaseBaseInfo(BaseModel):
     milestone = models.SmallIntegerField(default=0, choices=MILESTONE_CHOICES.items())
     customer_title = models.ForeignKey("Customer", null=True, blank=True)
 
+    sales = models.ForeignKey("employee.Employee", null=True, blank=True, related_name="sales")
+    presales = models.ForeignKey("employee.Employee", null=True, blank=True, related_name="presales")
+
     def __unicode__(self):
         return self.identifier + "," + self.case_title
 

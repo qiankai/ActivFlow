@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from django.views.generic import TemplateView
-from views import ListCases, ViewCase, CreateCase
+from views import ListCases, ViewCase, CreateCase,saveCustomer,openCase
 
 urlpatterns = [
     url(
@@ -16,5 +16,15 @@ urlpatterns = [
         r'^create/$',
         CreateCase.as_view(),
         name='case-create'
-    )
+    ),
+    url(
+        r'^api/savecustomer',
+        saveCustomer,
+        name='case-api-savecustomer'
+    ),
+    url(
+        r'^api/opencase',
+        openCase,
+        name='case-api-open'
+    ),
 ]
