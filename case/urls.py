@@ -14,7 +14,7 @@ urlpatterns = [
     ),
     url(
         r'^create/$',
-        CreateCase.as_view(),
+        ViewCase.as_view(),
         name='case-create'
     ),
     url(

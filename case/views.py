@@ -28,12 +28,23 @@ class ListCases(LoginRequiredMixin, generic.TemplateView):
         return context
 
 
-class ViewCase(LoginRequiredMixin, generic.DetailView):
+class ViewCase(LoginRequiredMixin, generic.TemplateView):
     template_name = 'case/view_0.html'
-    model = CaseBaseInfo
 
     def get_context_data(self, **kwargs):
         context = super(ViewCase, self).get_context_data(**kwargs)
+        print self.kwargs
+        pk = self.kwargs.get('pk')
+        try:
+            e = CaseBaseInfo.objects.get(id = pk)
+            if e.milestone == 1:
+                context['casebaseinfo'] = e
+                context['step'] = 1
+        except CaseBaseInfo.DoesNotExist:
+            context['customer_list'] = Customer.objects.all()
+            context['presale_list'] = Employee.objects.filter(position__contains='售前')
+            context['identifier'] = "B20170013"
+            context['step'] = 0
         return context
 
 
@@ -85,7 +96,8 @@ def openCase(request):
         customer_title=c,
         sales= sales,
         presales= presales,
-        current_budget= current_budget
+        current_budget= current_budget,
+        milestone = 1
     )
 
     p.save()

@@ -8,206 +8,33 @@
 </ol>
 {% endblock %}
 {% block main_content %}
+    {% if step == 0 %}
+    <div class="page-header">
+        <h3>项目立项
+            <div class="btn-group pull-right" role="group" aria-label="...">
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#NewCustomerModal">新建客户</button>
+                <button type="button" class="btn btn-primary" onclick=submitData()>保存</button>
+              </div>
+        </h3>
 
+    </div>
+    {% else %}
     <div class="page-header">
         <h3>{{ casebaseinfo.case_title }}
             <small>{{ casebaseinfo.identifier }}</small>
             <span class="label label-info pull-right">{{ casebaseinfo.get_milestone_display }}</span>
         </h3>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="btn-group pull-right" role="group">
-                <button type="button" class="btn btn-primary" >人员变更</button>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#NewCustomerModal">新建客户</button>
-                <button type="button" class="btn btn-primary" >保存</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="page-header">
-        <h5>
-            立项申请
-        </h5>
-    </div>
-    <div class="row">
-          <div class="col-md-4">
-              <div class="input-group row-margin-top">
-                  <span class="input-group-addon">项目名称</span>
-                  <input type="text" class="form-control" value="{{ casebaseinfo.case_title }}" readonly>
-              </div>
-          </div>
-          <div class="col-md-4">
-              <div class="input-group row-margin-top">
-                  <span class="input-group-addon">项目预算</span>
-                  <input type="text" class="form-control" value="{{ casebaseinfo.current_budget }}" readonly>
-              </div>
-          </div>
-          <div class="col-md-4">
-              <div class="input-group row-margin-top">
-                  <span class="input-group-addon">预计落单时间</span>
-                  <input type="text" id="case_deadline" class="form-control" value="{{ casebaseinfo.case_deadline }}" >
-                  <span class="input-group-btn"><a class="btn btn-default" onclick=saveinfo('case_deadline',$("#case_deadline").val())>修改</a></span>
-              </div>
-          </div>
-      </div>
-
-    <div class="row">
-          <div class="col-md-4">
-              <div class="input-group row-margin-top">
-                  <span class="input-group-addon">客户名称</span>
-                  <input type="text" class="form-control" value="{{ casebaseinfo.customer_title.customer_title }}" readonly>
-              </div>
-          </div>
-          <div class="col-md-4">
-              <div class="input-group row-margin-top">
-                  <span class="input-group-addon">客户联系人</span>
-                  <input type="text" class="form-control" id="contact_name" value="{{ casebaseinfo.contact_name }}">
-                  <span class="input-group-btn"><a class="btn btn-default" onclick=saveinfo('contact_name',$("#contact_name").val())>修改</a></span>
-              </div>
-          </div>
-          <div class="col-md-4">
-              <div class="input-group row-margin-top">
-                  <span class="input-group-addon">客户联系方式</span>
-                  <input type="text" id="contact_mobile" class="form-control" value="{{ casebaseinfo.contact_mobile }}" >
-                  <span class="input-group-btn"><a class="btn btn-default" onclick=saveinfo('contact_mobile',$("#contact_mobile").val())>修改</a></span>
-              </div>
-          </div>
-      </div>
-    <div class="row">
-          <div class="col-md-4">
-              <div class="input-group row-margin-top">
-                  <span class="input-group-addon">销售经理</span>
-                  <input type="text" class="form-control" value="{{ casebaseinfo.sales.real_name }}" readonly>
-              </div>
-          </div>
-          <div class="col-md-4">
-              <div class="input-group row-margin-top">
-                  <span class="input-group-addon">售前工程师</span>
-                  <input type="text" class="form-control" id="contact_name" value="{{ casebaseinfo.presales.real_name }}" readonly>
-              </div>
-          </div>
-
-      </div>
-
-    {% if casebaseinfo.milestone == 1 %}
-    <div class="page-header">
-        <h5>
-           项目立项售前工程师复核
-        </h5>
-    </div>
-
-
-<form class="form-horizontal">
-    <div class="form-group">
-    <label for="se_current_budgget" class="col-sm-2 control-label">项目预算</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="se_current_budgget" placeholder="项目预算">
-    </div>
-  </div>
-
-  <div class="form-group row-margin-top">
-    <label for="se_case_deadline" class="col-sm-2 control-label">项目预计下单日期</label>
-    <div class="col-sm-10">
-        <input type="text" class="form-control" id="se_case_deadline" placeholder="项目预计下单日期">
-    </div>
-  </div>
-
-  <div class="form-group row-margin-top">
-    <label for="se_pro_descript" class="col-sm-2 control-label">项目可行性</label>
-    <div class="col-sm-10">
-        <textarea class="form-control" id="se_pro_descript"></textarea>
-    </div>
-  </div>
-</form>
     {% endif %}
 
+    {% include "case/widgets/case_progress.html" with step=step %}
 
 
-    <!-- 新建客户Modal -->
-<div class="modal fade" id="NewCustomerModal" tabindex="-1" role="dialog" aria-labelledby="LevelModal">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">新建客户</h4>
-      </div>
-
-      <div class="modal-body">
-          <form>
-           <div class="form-group">
-            <label for="customer_identifier">客户编号:</label>
-            <input type="text" class="form-control" id="customer_identifier" placeholder="客户名称">
-          </div>
-          <div class="form-group">
-            <label for="new_customer_title">客户名称:</label>
-            <input type="text" class="form-control" id="new_customer_title" placeholder="客户名称">
-          </div>
-          </form>
-    </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick=savecustomer($("#new_customer_title").val(),$("#customer_identifier").val())>保存</button>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<script type="application/javascript">
-
-    function savecustomer(a,b) {
-     $.ajax({
-                 type: "POST",
-                 url: "/case/api/savecustomer",
-                 data: {"data":a,"cid":b},
-                 success: function(data){
-                       console.info(data);
-                       window.location.reload();
-                 },
-                 error: function(XMLHttpRequest, textStatus, errorThrown){
-                     console.info(XMLHttpRequest,textStatus,errorThrown)
-                      this;
-                 },
-                 complete: function(XMLHttpRequest, textStatus){
-                     console.info("complete");
-                     this;
-                 },
-            });
-     }
-     
-     function submitData() {
-        var data = {
-            "case_title":$("#case_title").val(),
-            "current_budget":$("#current_budget").val(),
-            "case_deadline":$("#case_deadline").val(),
-            "customer_title":$("#customer_title").val(),
-            "contact_name":$("#contact_name").val(),
-            "contact_mobile":$("#contact_mobile").val(),
-            "salesId":$("#salesId").val(),
-            "seId":$("#se").val(),
-            "identifer":$("#identifer").html()
-        }
-     $.ajax({
-                 type: "POST",
-                 url: "/case/api/opencase",
-                 data: data,
-                 success: function(data){
-                       console.info(data);
-                       window.location.href = "/case/View/"+data;
-                 },
-                 error: function(XMLHttpRequest, textStatus, errorThrown){
-                     console.info(XMLHttpRequest,textStatus,errorThrown)
-                      this;
-                 },
-                 complete: function(XMLHttpRequest, textStatus){
-                     console.info("complete");
-                     this;
-                 },
-            });
-
-         
-     }
-</script>
+    {% if step == 0 %}
+    {% include "case/widgets/opencase_edit.html" %}
+    {% endif %}
+    {% if step == 1 %}
+    {% include "case/widgets/confirmcase_edit.html" %}
+    {% endif %}
 
 {% endblock %}
