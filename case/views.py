@@ -34,7 +34,7 @@ class ViewCase(LoginRequiredMixin, generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ViewCase, self).get_context_data(**kwargs)
-        print context
+        return context
 
 
 class CreateCase(LoginRequiredMixin, generic.TemplateView):

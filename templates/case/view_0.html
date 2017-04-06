@@ -12,27 +12,35 @@
     <div class="page-header">
         <h3>{{ casebaseinfo.case_title }}
             <small>{{ casebaseinfo.identifier }}</small>
-            <span class="label label-info">{{ casebaseinfo.get_milestone_display }}</span>
-
+            <span class="label label-info pull-right">{{ casebaseinfo.get_milestone_display }}</span>
+        </h3>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <div class="btn-group pull-right" role="group">
                 <button type="button" class="btn btn-primary" >人员变更</button>
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#NewCustomerModal">新建客户</button>
                 <button type="button" class="btn btn-primary" >保存</button>
-              </div>
-        </h3>
+            </div>
+        </div>
     </div>
 
+    <div class="page-header">
+        <h5>
+            立项申请
+        </h5>
+    </div>
     <div class="row">
-          <div class="col-md-4">
-              <div class="input-group row-margin-top">
-                  <span class="input-group-addon">项目编号</span>
-                  <input type="text" class="form-control" value="{{ casebaseinfo.identifier }}" readonly>
-              </div>
-          </div>
           <div class="col-md-4">
               <div class="input-group row-margin-top">
                   <span class="input-group-addon">项目名称</span>
                   <input type="text" class="form-control" value="{{ casebaseinfo.case_title }}" readonly>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">项目预算</span>
+                  <input type="text" class="form-control" value="{{ casebaseinfo.current_budget }}" readonly>
               </div>
           </div>
           <div class="col-md-4">
@@ -81,6 +89,38 @@
           </div>
 
       </div>
+
+    {% if casebaseinfo.milestone == 1 %}
+    <div class="page-header">
+        <h5>
+           项目立项售前工程师复核
+        </h5>
+    </div>
+
+
+<form class="form-horizontal">
+    <div class="form-group">
+    <label for="se_current_budgget" class="col-sm-2 control-label">项目预算</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="se_current_budgget" placeholder="项目预算">
+    </div>
+  </div>
+
+  <div class="form-group row-margin-top">
+    <label for="se_case_deadline" class="col-sm-2 control-label">项目预计下单日期</label>
+    <div class="col-sm-10">
+        <input type="text" class="form-control" id="se_case_deadline" placeholder="项目预计下单日期">
+    </div>
+  </div>
+
+  <div class="form-group row-margin-top">
+    <label for="se_pro_descript" class="col-sm-2 control-label">项目可行性</label>
+    <div class="col-sm-10">
+        <textarea class="form-control" id="se_pro_descript"></textarea>
+    </div>
+  </div>
+</form>
+    {% endif %}
 
 
 

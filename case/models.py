@@ -1,3 +1,4 @@
+# coding:utf-8
 from __future__ import unicode_literals
 
 from django.db import models
@@ -31,13 +32,15 @@ class Customer(BaseModel):
 
 class CaseBaseInfo(BaseModel):
     MILESTONE_CHOICES = {
-        1: 'set up the project',
-        2: 'bid the project',
-        3: 'sign contract',
-        4: 'start implementation',
-        5: 'check and accept',
-        6: 'services ',
-        0: 'closed',
+        1: u'立项申请',
+        2: u'售前复核',
+        3: u'项目立项',
+        4: u'项目投标',
+        5: u'项目签约',
+        6: u'项目实施',
+        7: u'项目验收',
+        8: u'维保阶段',
+        0: u'关闭',
     }
     identifier = models.CharField(max_length=20)
     case_title = models.CharField(max_length=200)
