@@ -15,27 +15,35 @@
 	</blockquote>
   </div>
   <div class="col-md-3 col-md-pull-9">
+      {% if opencase %}
     <a href="{% url 'case-create' %}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon glyphicon-edit"></span> 立项 </a>
+  {% endif %}
   </div>
 </div>
 {% if object_list %}
-<table class="table table-bordered">
+<table class="table table-bordered responsive">
 	<tr>
-		<th><span class="glyphicon glyphicon-menu-hamburger"></span></th>
-		<th>项目编号</th>
-		<th>项目名称</th>
-        <th>当前状态</th>
-		<th>更新时间</th>
+		<th></th>
+		<th class="text-center">项目编号</th>
+		<th class="text-center">项目名称</th>
+        <th class="text-center">当前状态</th>
+{#		<th>更新时间</th>#}
     </tr>
     {% for object in object_list %}
-	<tr class="active">
-		<td>
-            <a class="btn btn-info btn-xs " href="{% url 'case-view' object.id %}"><span class="glyphicon glyphicon glyphicon-check"></span>查看</a>
-		</td>
-		<td>{{object.identifier}}</td>
-		<td>{{object.case_title}}</td>
-        <td>{{object.milestone}}</td>
-		<td>{{object.update_date}}</td>
+	<tr>
+		<td class="text-center">
+            <a class="btn btn-success btn-xs " href="{% url 'case-view' object.id object.milestone%}"><span class="glyphicon glyphicon glyphicon-check"></span>查看</a>
+		    {% if object.milestone == 1 and confirmcase %}
+            <a class="btn btn-danger btn-xs " href="{% url 'case-view' object.id object.milestone%}"><span class="glyphicon glyphicon glyphicon-check"></span>售前复核</a>
+            {% endif %}
+            {% if object.milestone == 2 and approvecase %}
+            <a class="btn btn-danger btn-xs " href="{% url 'case-view' object.id object.milestone%}"><span class="glyphicon glyphicon glyphicon-check"></span>立项审核</a>
+            {% endif %}
+        </td>
+		<td class="text-center">{{object.identifier}}</td>
+		<td class="text-center">{{object.case_title}}</td>
+        <td class="text-center">{{object.get_milestone_display}}</td>
+{#		<td>{{object.update_date}}</td>#}
     </tr>
 
 	{% endfor %}

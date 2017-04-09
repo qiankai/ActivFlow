@@ -1,0 +1,131 @@
+<div class="page-header">
+        <h4>
+            立项申请
+            {%  if step == 2 and approvecase%}
+            <div class="btn-group pull-right" role="group">
+                <button type="button" class="btn btn-danger" onclick=rejectorapprove(false)>驳回</button>
+               <button type="button" class="btn btn-success" onclick=rejectorapprove(true)>审批通过</button>
+            </div>
+            {% endif %}
+        </h4>
+    </div>
+    <div class="row">
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">项目名称</span>
+                  <input type="text" class="form-control" value="{{ casebaseinfo.case_title }}" readonly>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">项目预算</span>
+                  <input type="text" class="form-control" value="{{ casebaseinfo.current_budget }}" readonly>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">预计落单时间</span>
+                  <input type="text" id="case_deadline" class="form-control" value="{{ casebaseinfo.case_deadline }}" readonly>
+              </div>
+          </div>
+      </div>
+
+    <div class="row">
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">客户名称</span>
+                  <input type="text" class="form-control" value="{{ casebaseinfo.customer_title.customer_title }}" readonly>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">客户联系人</span>
+                  <input type="text" class="form-control" id="contact_name" value="{{ casebaseinfo.contact_name }}" readonly>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">客户联系方式</span>
+                  <input type="text" id="contact_mobile" class="form-control" value="{{ casebaseinfo.contact_mobile }}" readonly>
+              </div>
+          </div>
+      </div>
+    <div class="row">
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">销售经理</span>
+                  <input type="text" class="form-control" value="{{ casebaseinfo.sales.real_name }}" readonly>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">售前工程师</span>
+                  <input type="text" class="form-control" id="contact_name" value="{{ casebaseinfo.presales.real_name }}" readonly>
+              </div>
+          </div>
+
+      </div>
+
+<div class="page-header">
+        <h4>
+            售前复核
+        </h4>
+    </div>
+    <div class="row">
+          <div class="col-md-6">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">项目预算</span>
+                  <input type="text" class="form-control" value="{{ casebaseinfo.se_current_budget }}" readonly>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">预计落单时间</span>
+                  <input type="text" id="case_deadline" class="form-control" value="{{ casebaseinfo.se_case_deadline }}" readonly>
+              </div>
+          </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 row-margin-top ">
+            <div class="panel panel-default">
+              <div class="panel-heading">项目可行性分析</div>
+              <div class="panel-body">
+                {{ casebaseinfo.se_case_baseinfo }}
+              </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="application/javascript">
+        function rejectorapprove(a) {
+
+            var data = {
+                cid:$("#cid").val()
+            };
+            var url="/case/api/rejectcase";
+
+            if(a){
+                url ="/case/api/approvecase"
+            }
+
+            $.ajax({
+                 type: "POST",
+                 url: url,
+                 data: data,
+                 success: function(data){
+                       console.info(data);
+                       window.location.href = "/case/View/"+data +"/Stage/3";
+                 },
+                 error: function(XMLHttpRequest, textStatus, errorThrown){
+                     console.info(XMLHttpRequest,textStatus,errorThrown)
+                      this;
+                 },
+                 complete: function(XMLHttpRequest, textStatus){
+                     console.info("complete");
+                     this;
+                 },
+            });
+        }
+
+    </script>

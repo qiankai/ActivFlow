@@ -21,20 +21,77 @@
     {% else %}
     <div class="page-header">
         <h3>{{ casebaseinfo.case_title }}
-            <small>{{ casebaseinfo.identifier }}</small>
-            <span class="label label-info pull-right">{{ casebaseinfo.get_milestone_display }}</span>
+            <small><small>{{ casebaseinfo.identifier }}</small></small>
+            <span class="label label-warning pull-right">{{ casebaseinfo.get_milestone_display }}</span>
+
         </h3>
+        <input type="hidden" id="cid" value="{{ casebaseinfo.id }}">
     </div>
+        {% if milstone_fin %}
+        <div class="row">
+        <div class="col-md-8"></div>
+        <div class="col-md-4">
+            <div class="btn-group pull-right" role="group">
+                <button type="button" class="btn btn-default">返回上一个里程碑</button>
+                <button type="button" class="btn btn-success">进入下一个里程碑</button>
+            </div>
+        </div>
+        </div>
+        {% endif %}
+
     {% endif %}
 
-    {% include "case/widgets/case_progress.html" with step=step %}
+{#    {% include "case/widgets/case_progress.html" with step=step %}#}
+
+{# <ul class="nav nav-pills nav-justified step step-progress">#}
+{#    <li {% if step > 0 and step < 30 %}class="active" {% endif %}>#}
+{#        <a>立项申请</a>#}
+{#    </li>#}
+{#    <li {% if step > 1 and step < 30  %}class="active" {% endif %}>#}
+{#        <a>售前复核</a>#}
+{#    </li>#}
+{#    <li {% if step > 2 and step < 30  %}class="active" {% endif %}>#}
+{#        <a>项目立项</a>#}
+{#    </li>#}
+{#    <li {% if step > 3 and step < 30 %}class="active" {% endif %}>#}
+{#        <a>项目投标</a>#}
+{#    </li>#}
+{#    <li {% if step > 4  and step < 30 %}class="active" {% endif %}>#}
+{#        <a>项目签约</a>#}
+{#    </li>#}
+{#    <li {% if step > 5  and step < 30 %}class="active" {% endif %}>#}
+{#        <a>项目实施</a>#}
+{#    </li>#}
+{#    <li {% if step > 6 and step < 30  %}class="active" {% endif %}>#}
+{#        <a>项目验收</a>#}
+{#    </li>#}
+{#    <li {% if step > 7 and step < 30  %}class="active" {% endif %}>#}
+{#        <a>维保阶段</a>#}
+{#    </li>#}
+{#    <li {% if step > 8 and step < 30  %}class="active" {% endif %}>#}
+{#        <a>关闭</a>#}
+{#    </li>#}
+{#</ul>#}
 
 
     {% if step == 0 %}
     {% include "case/widgets/opencase_edit.html" %}
     {% endif %}
     {% if step == 1 %}
-    {% include "case/widgets/confirmcase_edit.html" %}
+        {% if confirmcase %}
+            {% include "case/widgets/confirmcase_edit.html" %}
+        {% else %}
+            {% include "case/widgets/denied.html" %}
+        {% endif %}
+    {% endif %}
+    {% if step == 2 %}
+    {% include "case/widgets/case_approval.html" %}
+    {% endif %}
+    {% if step == 3 %}
+    {% include "case/widgets/case.html" %}
+    {% endif %}
+    {% if step == 99 %}
+    {% include "case/widgets/case_approval.html" %}
     {% endif %}
 
 {% endblock %}

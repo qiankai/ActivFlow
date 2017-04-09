@@ -3,7 +3,7 @@
         <h3>
            项目立项售前工程师复核
             <div class="btn-group pull-right" role="group">
-               <button type="button" class="btn btn-primary" >保存</button>
+               <button type="button" class="btn btn-primary" onclick=save()>保存</button>
             </div>
         </h3>
     </div>
@@ -27,7 +27,42 @@
   <div class="form-group row-margin-top">
     <label for="se_pro_descript" class="col-sm-2 control-label">项目可行性</label>
     <div class="col-sm-10">
-        <textarea class="form-control" id="se_pro_descript"></textarea>
+        <input type="text" class="form-control" id="se_pro_descript" placeholder="项目可行性">
+        <script type="text/javascript">CKEDITOR.replace('se_pro_descript')</script>
     </div>
   </div>
 </form>
+
+    <script type="application/javascript">
+        
+        function save() {
+
+            var data = {
+                se_current_budgget:$("#se_current_budgget").val(),
+                se_case_deadline:$("#se_case_deadline").val(),
+                se_pro_descript:$("#se_pro_descript").val(),
+                cid:$("#cid").val()
+            };
+
+            $.ajax({
+                 type: "POST",
+                 url: "/case/api/saveseconfirm",
+                 data: data,
+                 success: function(data){
+                       console.info(data);
+                       window.location.href = "/case/View/"+data +"/Stage/3";
+                 },
+                 error: function(XMLHttpRequest, textStatus, errorThrown){
+                     console.info(XMLHttpRequest,textStatus,errorThrown)
+                      this;
+                 },
+                 complete: function(XMLHttpRequest, textStatus){
+                     console.info("complete");
+                     this;
+                 },
+            });
+            
+        }
+
+
+    </script>

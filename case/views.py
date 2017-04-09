@@ -24,7 +24,12 @@ class ListCases(LoginRequiredMixin, generic.TemplateView):
         context = super(ListCases, self).get_context_data(**kwargs)
 
         context['object_list'] = CaseBaseInfo.objects.all()
-
+        if self.request.user.has_perm('CAN_SE_CASE_CONFIRM'):
+            context['confirmcase'] = True
+        if self.request.user.has_perm('CAN_OPEN_CASE'):
+            context['approvecase'] = True
+        if self.request.user.has_perm('CAN_SALE_OPEN_CASE'):
+            context['opencase'] = True
         return context
 
 
@@ -34,12 +39,37 @@ class ViewCase(LoginRequiredMixin, generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super(ViewCase, self).get_context_data(**kwargs)
         print self.kwargs
+        print self.request.user.has_perm('CAN_SE_CASE_CONFIRM')
         pk = self.kwargs.get('pk')
+        stage = self.kwargs.get('stage')
+        '''
+          stage:
+                1: u'项目立项',
+                2: u'项目投标',
+                3: u'项目签约',
+                4: u'项目实施',
+                5: u'项目验收',
+                6: u'维保阶段',
+                0: u'关闭',
+        '''
         try:
             e = CaseBaseInfo.objects.get(id = pk)
             if e.milestone == 1:
                 context['casebaseinfo'] = e
                 context['step'] = 1
+                if self.request.user.has_perm('CAN_SE_CASE_CONFIRM'):
+                    context['confirmcase'] = True
+            elif e.milestone == 2:
+                context['casebaseinfo'] = e
+                context['step'] = 2
+                if self.request.user.has_perm('CAN_OPEN_CASE'):
+                    context['approvecase'] = True
+            elif e.milestone == 3:
+                context['casebaseinfo'] = e
+                context['step'] = 3
+            elif e.milestone == 99:
+                context['casebaseinfo'] = e
+                context['step'] = 99
         except CaseBaseInfo.DoesNotExist:
             context['customer_list'] = Customer.objects.all()
             context['presale_list'] = Employee.objects.filter(position__contains='售前')
@@ -60,6 +90,7 @@ class CreateCase(LoginRequiredMixin, generic.TemplateView):
         context['identifier'] = "B20170013"
 
         return context
+
 
 
 @csrf_exempt
@@ -102,3 +133,36 @@ def openCase(request):
 
     p.save()
     return HttpResponse(str(p.id))
+
+@csrf_exempt
+def saveseconfirm(request):
+    se_current_budgget = request.POST.get("se_current_budgget")
+    se_case_deadline = request.POST.get("se_case_deadline")
+    se_pro_descript = request.POST.get("se_pro_descript")
+    cid = request.POST.get("cid")
+
+    c = CaseBaseInfo.objects.get(id = cid)
+    c.se_case_baseinfo = se_pro_descript
+    c.se_case_deadline = se_case_deadline
+    c.se_current_budget = se_current_budgget
+    c.milestone = 2
+
+    c.save()
+
+    return HttpResponse(str(c.id))
+
+@csrf_exempt
+def approvecase(request):
+    cid = request.POST.get("cid")
+    c = CaseBaseInfo.objects.get(id=cid)
+    c.milestone = 3
+    c.save()
+    return HttpResponse(str(c.id))
+
+@csrf_exempt
+def rejectcase(request):
+    cid = request.POST.get("cid")
+    c = CaseBaseInfo.objects.get(id=cid)
+    c.milestone = 99
+    c.save()
+    return HttpResponse(str(c.id))

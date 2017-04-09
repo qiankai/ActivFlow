@@ -1,0 +1,184 @@
+
+<div class="row">
+        <div class="col-md-6">
+                    <!-- 项目费用情况 开始 -->
+ <div class="panel panel-default">
+              <div class="panel-heading">项目费用使用情况</div>
+            <div class="panel-body">
+               <p>项目总费用:XX元,其中营销费用XX元,实施费用XX元</p>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item"><p>营销费用已使用XX元剩余XX元</p><a href="#">点击查看明细</a></li>
+                <li class="list-group-item"><p>实施费用已使用XX元剩余XX元</p><a href="#">点击查看明细</a></li>
+            </ul>
+
+        </div>
+     <!-- 项目费用情况 结束 -->
+        <!-- 项目基本情况 开始 -->
+        <div class="panel panel-default">
+              <div class="panel-heading">项目基本情况</div>
+              <div class="panel-body">
+                <div class="row">
+          <div class="col-md-6">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">项目名称</span>
+                  <input type="text" class="form-control" value="{{ casebaseinfo.case_title }}" readonly>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">项目预算</span>
+                  <input type="text" class="form-control" value="{{ casebaseinfo.current_budget }}" readonly>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">预计落单时间</span>
+                  <input type="text" id="case_deadline" class="form-control" value="{{ casebaseinfo.case_deadline }}" readonly>
+              </div>
+          </div>
+
+          <div class="col-md-6">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">合同签订时间</span>
+                  <input type="text" id="case_deadline" class="form-control" value="" readonly>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">项目金额</span>
+                  <input type="text" id="case_deadline" class="form-control" value="" readonly>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">合同编号</span>
+                  <input type="text" id="case_deadline" class="form-control" value="" readonly>
+              </div>
+          </div>
+
+          <div class="col-md-6">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">客户名称</span>
+                  <input type="text" class="form-control" value="{{ casebaseinfo.customer_title.customer_title }}" readonly>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">客户联系人</span>
+                  <input type="text" class="form-control" id="contact_name" value="{{ casebaseinfo.contact_name }}" readonly>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">客户联系方式</span>
+                  <input type="text" id="contact_mobile" class="form-control" value="{{ casebaseinfo.contact_mobile }}" readonly>
+              </div>
+          </div>
+
+
+          <div class="col-md-6">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">销售经理</span>
+                  <input type="text" class="form-control" value="{{ casebaseinfo.sales.real_name }}" readonly>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">售前工程师</span>
+                  <input type="text" class="form-control" id="contact_name" value="{{ casebaseinfo.presales.real_name }}" readonly>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="input-group row-margin-top">
+                  <span class="input-group-addon">项目经理</span>
+                  <input type="text" class="form-control" id="contact_name" value="" readonly>
+              </div>
+          </div>
+      </div>
+
+    <div class="row">
+        <div class="col-md-12 row-margin-top ">
+            <div class="panel panel-default">
+              <div class="panel-heading">项目可行性分析</div>
+              <div class="panel-body">
+                {{ casebaseinfo.se_case_baseinfo }}
+              </div>
+            </div>
+        </div>
+    </div>
+              </div>
+    </div>
+         <!-- 项目基本情况 结束 -->
+
+</div>
+
+    <div class="col-md-6">
+        <!-- 项目流程 开始-->
+<div class="panel panel-default">
+              <div class="panel-heading">项目流程</div>
+        <ul class="list-group">
+    <li class="list-group-item">
+        <p>项目投标阶段</p>
+        <ul>
+            <li><a href="#"><i class=" glyphicon glyphicon-arrow-right"></i>投标成本审批流程</a><i class="green glyphicon glyphicon-ok"></i></li>
+            <li><a href="#"><i class=" glyphicon glyphicon-arrow-right"></i>投标价格审批流程</a></li>
+            <li><a href="#"><i class=" glyphicon glyphicon-arrow-right"></i>投标技术方案审批流程</a><i class="green glyphicon glyphicon-ok"></i></li>
+            <li><a href="#"><i class=" glyphicon glyphicon-arrow-right"></i>投标资质申请审批流程</a><i class="green glyphicon glyphicon-ok"></i></li>
+            <li><a href="#"><i class=" glyphicon glyphicon-arrow-right"></i>投标用章申请审批流程</a></li>
+        </ul>
+    </li>
+    <li class="list-group-item">
+        <p>项目签约阶段</p>
+        <ul>
+            <li><a href="#"><i class=" glyphicon glyphicon-arrow-right"></i>合同审批流程</a></li>
+        </ul>
+    </li>
+    <li class="list-group-item">
+        <p>项目实施阶段</p>
+        <ul>
+            <li><a href="#"><i class=" glyphicon glyphicon-arrow-right"></i>采购申请流程</a></li>
+            <li><a href="#"><i class=" glyphicon glyphicon-arrow-right"></i>项目组管理</a></li>
+            <li><a href="#"><i class=" glyphicon glyphicon-arrow-right"></i>项目变更流程</a></li>
+            <li><a href="#"><i class=" glyphicon glyphicon-arrow-right"></i>开票申请流程</a></li>
+        </ul>
+    </li>
+    <li class="list-group-item">
+        <p>项目验收阶段</p>
+        <ul>
+            <li><a href="#"><i class=" glyphicon glyphicon-arrow-right"></i>项目验收审批流程</a></li>
+            <li><a href="#"><i class=" glyphicon glyphicon-arrow-right"></i>项目变更流程</a></li>
+        </ul></li>
+     <li class="list-group-item">
+        <p>项目维保阶段</p>
+        <ul>
+            <li><a href="#"><i class=" glyphicon glyphicon-arrow-right"></i>巡检申请</a></li>
+        </ul></li>
+  </ul>
+    </div>
+        <!-- 项目流程结束 -->
+
+                <!-- 项目文档 开始-->
+ <div class="panel panel-default">
+              <div class="panel-heading">项目文档 <a href="#" class="pull-right">上传</a></div>
+     <div class="panel-body">
+                 项目合同
+               开工报告
+                需求规格说明书
+                概要设计
+                详细设计
+                数据库设计
+                测试文档
+               验收文档
+     </div>
+
+        </div>
+     <!-- 项目费用情况 结束 -->
+
+
+    </div>
+
+</div>
+
+
+

@@ -41,17 +41,21 @@ class CaseBaseInfo(BaseModel):
         7: u'项目验收',
         8: u'维保阶段',
         0: u'关闭',
+        99:u'拒绝立项'
     }
     identifier = models.CharField(max_length=20)
     case_title = models.CharField(max_length=200)
     contract_no = models.CharField(max_length=40, blank=True, null=True)
     pay_type = models.CharField(max_length=200, blank=True, null=True)
     current_budget = models.FloatField(blank=True, null=True)
+    se_current_budget = models.FloatField(blank=True, null=True)
+    se_case_baseinfo = models.TextField(blank=True,null=True)
+    se_case_deadline = models.DateField(null=True)
     contract_total = models.FloatField(blank=True, null=True)
     contact_name = models.CharField(max_length=20, blank=True, null=True)
     contact_mobile = models.CharField(max_length=20, blank=True, null=True)
     case_address = models.CharField(max_length=256)
-    case_deadline = models.DateField()
+    case_deadline = models.DateField(null=True)
     milestone = models.SmallIntegerField(default=0, choices=MILESTONE_CHOICES.items())
     customer_title = models.ForeignKey("Customer", null=True, blank=True)
 
